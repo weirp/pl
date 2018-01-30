@@ -45,3 +45,8 @@
                                  (set (conj s contractNumber))))))
           {}
           cdmsContracts))
+
+(defn traxData []
+  [{:id 12, :contract_id 1221, :description "C1", :checked true, :date_created #inst "2014-10-19T12:00:00" },
+   {:id 243, :contract_id 837, :description "C2", :checked false, :date_created #inst "2015-02-11T10:00:00" }
+   ])

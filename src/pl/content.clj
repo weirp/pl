@@ -1,6 +1,6 @@
 (ns pl.content
-  (:require [hiccup.core :refer [html]]
-            [hiccup.page]
+  (:require [hiccup.core :refer [html h]]
+            [hiccup.page :refer [html5]]
             [hiccup.element :refer [link-to]]
             [hiccup.util :refer [url]]))
 
@@ -19,6 +19,7 @@
       [:li (link-to (url "/cdmsSupplierMap") "CDMS Supplier Map")]
       [:li (link-to (url "/cdmsContractNumberMap") "CDMS Contract number Map")]
       [:li (link-to (url "/tendersContracts") "Tenders Contracts")]
+      [:li (link-to ( url "/tl") "Timeline")]
       ]]]))
 
 (defn display-contracts [c]
@@ -87,3 +88,46 @@
      [:div
       [:ul
        (map (fn [x] [:li x]) c)]]]]))
+
+(defn trax-page [trax]
+  (html5 {:lang :en}
+         [:head
+          [:title "Listronica"]
+          [:meta {:name :viewport
+                  :content "width=device-width, initial-scale=1.0"}]
+          [:link {:href "/bootstrap/css/bootstrap.min.css"
+                  :rel :stylesheet}]
+          [:link {:href "/vis/css/vis.min.css"
+                  :rel :stylesheet}]]
+         [:body
+          [:div.container]
+          [:h1 "My Items"]
+          [:div.row
+           (if (seq trax)
+             [:table.table.table-striped
+              [:thead
+               [:tr
+                [:th "contract id"]
+                [:th "Description"]
+                ]]
+              [:tbody
+               (for [i trax]
+                 [:tr
+                  [:td (h (:contract_id i))]
+                  [:td (h (:description i))]
+
+                  ])]]
+             [:div.col-sm-offset-1 "There are no trax."])]
+          [:div.col-sm-6
+           [:h2 "Create a new item"]
+           [:br]]
+
+          [:div.row]
+
+          [:div#timeline.timeline]
+
+          [:script {:src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"}]
+          [:script {:src "/bootstrap/js/bootstrap.min.js"}]
+          [:script {:src "/js/main.js"}]
+          [:script {:src "/build_timeline.js"}]]
+         ))
